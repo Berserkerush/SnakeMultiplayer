@@ -1,0 +1,126 @@
+﻿<Window x:Class="snake.View.SnakeMainGame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:snake.View" xmlns:local1="clr-namespace:snake.ViewModel"
+        mc:Ignorable="d"
+        Title="SnakeMainGame" Height="700" Width="700">
+    <Window.DataContext>
+        <local1:SnakeViewModel/>
+    </Window.DataContext>
+    <Window.InputBindings>
+
+
+        <KeyBinding Key="Up" Command="{Binding KeyPressCommand}" CommandParameter="Up"/>
+        <KeyBinding Key="Down" Command="{Binding KeyPressCommand}" CommandParameter="Down"/>
+        <KeyBinding Key="Left" Command="{Binding KeyPressCommand}" CommandParameter="Left"/>
+        <KeyBinding Key="Right" Command="{Binding KeyPressCommand}" CommandParameter="Right"/>
+
+        <KeyBinding Key="W" Command="{Binding KeyPressCommand2}" CommandParameter="Up"/>
+        <KeyBinding Key="S" Command="{Binding KeyPressCommand2}" CommandParameter="Down"/>
+        <KeyBinding Key="A" Command="{Binding KeyPressCommand2}" CommandParameter="Left"/>
+        <KeyBinding Key="D" Command="{Binding KeyPressCommand2}" CommandParameter="Right"/>
+    </Window.InputBindings>
+ 
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+
+            <ColumnDefinition Width="auto"/>
+
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding PlayerSnakes}" Margin="0,0,0,83" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Margin="0" Height="500"  Width="500" Background="Transparent"  />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <ItemsControl Padding="0" Margin="0" ItemsSource="{Binding Path=Body}" BorderThickness="2" BorderBrush="Black">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas Margin="0" Height="500"  Width="500" Background="Transparent"  />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.Top" Value="{Binding Path=Position.PointY}"/>
+                                <Setter Property="Canvas.Left" Value="{Binding Path=Position.PointX}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Rectangle Width="{Binding Path=Position.Rad}" Height="{Binding Path=Position.Rad}" Fill="Blue" Stroke="Black" 
+                                     StrokeThickness="1" >
+                                </Rectangle>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Food}" BorderThickness="2" BorderBrush="Black" Margin="0,0,0,83" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Height="500" Width="500" Background="Transparent"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Top" Value="{Binding Position.PointY}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding Position.PointX}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Ellipse Width="{Binding Position.Rad}" Height="{Binding Position.Rad}"  Fill="Red" Stroke="Black" 
+                              StrokeThickness="1"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+
+        <ItemsControl Grid.Column="1" Grid.Row="0" ItemsSource="{Binding PlayerStat}" BorderThickness="2" BorderBrush="Black" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Background="LightGreen" Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Player" Width="70" FontWeight="Bold" FontSize="12" Grid.Column="0" Grid.Row="0" />
+                        <TextBlock Text="Wins" Width="70" FontWeight="Bold" FontSize="12" Grid.Column="1" Grid.Row="0" />
+                        <TextBlock Text="Puntos" Width="70" FontWeight="Bold" FontSize="12" Grid.Column="2" Grid.Row="0" />
+                        <TextBlock Text="{Binding VibId}"  Width="70" FontWeight="Bold" FontSize="12" Grid.Column="0" Grid.Row="1" />
+                        <TextBlock Text="{Binding Wins}" Width="70" FontWeight="Bold" FontSize="12" Grid.Column="1" Grid.Row="1" />
+                        <TextBlock Text="{Binding Puntos}" Width="70" FontWeight="Bold" FontSize="12" Grid.Column="2" Grid.Row="1" />
+                    </Grid>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Command="{Binding AddSnakeCommand}" Content="Start" Height="31" Width="50" Grid.Column="0" Grid.Row="0"/>
+       <!--<Button Command="{Binding AddSnakeBody}" Content="AddBody" Height="31"  Width="55" Grid.Column="2" Grid.Row="0"/>-->
+    </Grid>
+</Window>
